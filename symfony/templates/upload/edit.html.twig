@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Upload{% endblock %}
+
+{% block body %}
+<!--================Home Banner Area =================-->
+<section class="banner_area">
+    <div class="banner_inner d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="banner_content text-center">
+                        <h2 class="text-warning">UPLOAD</h2>
+                        <div class="page_link">
+                            <a href="index.html" class="text-warning">Home</a>
+                            <a href="courses.html" class="text-warning">Upload</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--================End Home Banner Area =================-->
+ 
+
+<div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+        <div class="col-md-9 ftco-animate text-center">
+            <h1>Edit Upload</h1>
+            {{ include('upload/_form.html.twig', {'button_label': 'Update'}) }}
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}

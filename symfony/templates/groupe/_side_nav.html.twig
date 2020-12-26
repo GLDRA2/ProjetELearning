@@ -1,0 +1,109 @@
+<div class="col-md-2 col-sm-4 sidebar1">
+  <br />
+  <br />
+  <div class="left">
+    {% if is_granted('ROLE_TEACHER') %}
+    <ul class="list">
+      <h5 style="font-size: 20px">
+        <span data-toggle="collapse" href="#sub-list" class="sign fas fa-tasks"
+          >&nbspTASKS</span
+        >
+      </h5>
+
+      <li id="sub-list">
+        <a
+          href="{{ path('section_new', { id: groupe.cours.id }) }}"
+          style="color: white"
+          >ADD Section
+        </a>
+      </li>
+
+      {#
+      <li id="sub-list">
+        <a
+          href="{{ path('upload_new', { id: groupe.cours.id }) }}"
+          style="color: white"
+          >ADD Article</a
+        >
+      </li>
+      #}
+      <li id="sub-list">
+        <a
+          href="{{ path('activity_new', { id: groupe.cours.id }) }}"
+          style="color: white"
+          >ADD Activity
+        </a>
+      </li>
+      <li id="sub-list">
+        <a href="{{ path('cour_new') }}" style="color: white">ADD Depot </a>
+      </li>
+      <li id="sub-list">
+        <a href="{{ path('cour_new') }}" style="color: white">ADD Task </a>
+      </li>
+      <li id="sub-list">
+        <a href="{{ path('cour_new') }}" style="color: white"
+          >ADD Question for Task
+        </a>
+      </li>
+      <li id="sub-list">
+        <a
+          href="{{ path('cour_edit', { id: groupe.cours.id }) }}"
+          style="color: white"
+          >Update Cour</a
+        >
+      </li>
+      <li id="sub-list">
+        <a
+          href="{{ path('groupe_update', { id: groupe.id }) }}"
+          style="color: white"
+          >Update Groupe</a
+        >
+      </li>
+    </ul>
+    {% endif %}
+    <ul class="list">
+      <br />
+      <h5 style="font-size: 20px">
+        <span
+          data-toggle="collapse"
+          href="#groupe-list"
+          class="sign fas fa-users"
+          >&nbspGROUP</span
+        >
+      </h5>
+      {% for user in groupe.users %}
+      <li id="groupe-list">
+        <span class="lbl" style="font-size: 18px; color: white">{{
+          user.username
+        }}</span>
+      </li>
+      {% endfor %}
+      <br />
+      <h5 style="font-size: 20px">
+        <span
+          data-toggle="collapse"
+          href="#message-list"
+          class="sign fas fa-inbox"
+          >&nbspMESSAGE</span
+        >
+      </h5>
+      <li id="message-list">
+        <a
+          href="{{ path('groupe_message', { id: groupe.id }) }}"
+          style="color: white"
+          >Send Message</a
+        >
+      </li>
+      <li id="message-list">
+        <a
+          href="{{ path('groupemessage_show', { id: groupe.id }) }}"
+          style="color: white"
+          >All Message</a
+        >
+      </li>
+      <br />
+    </ul>
+
+    <!--==========================================-======================================-->
+  </div>
+</div>
