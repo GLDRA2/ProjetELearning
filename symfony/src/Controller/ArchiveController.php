@@ -73,7 +73,10 @@ class ArchiveController extends AbstractController
             $entityManager->persist($archive);
             $entityManager->flush();
 
-            return $this->redirectToRoute('archive_index');
+            $groupe = $depot->getActivity()->getCour()->getGroupe();
+            return $this->redirectToRoute('groupe_show', [
+            'id' => $groupe->getId(),
+            ]);
         }
 
         return $this->render('archive/new.html.twig', [

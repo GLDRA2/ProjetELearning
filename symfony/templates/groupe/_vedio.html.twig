@@ -1,23 +1,43 @@
 {% for section in groupe.cours.sections %}
 
 <!-- single course -->
-<div style="background-color: #002347; color: rgb(255, 255, 255)">
-  <h4>
-    <strong>{{ section.title }}</strong>
-  </h4>
-</div>
-<div align="right">
-  <a
-    href="{{
-      path('upload_new', { id: groupe.cours.id, sectionid: section.id })
-    }}"
-    ><i class="far fa-newspaper fa-lg"></i
-  ></a>
-</div>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item active">
+    {{ section.title }}
+  </li>
+  &nbsp; {% if is_granted('ROLE_TEACHER') %}
+  <span class="badge badge-primary"
+    ><a
+      href="{{
+        path('upload_new', { id: groupe.cours.id, sectionid: section.id })
+      }}"
+      style="color: white"
+    >
+      NEW
+    </a>
+  </span>
+  {% endif %}
+</ol>
 
-<br />
 {% for vedio in section.uploads %}{% if vedio.filevedio is not null and
-vedio.filevedio|trim is not empty %}
+vedio.filevedio|trim is not empty %} {% if is_granted('ROLE_TEACHER') %}
+<div class="container">
+  <div class="row">
+    <span class="meta_info">
+      <a
+        href="{{ path('upload_edit', { id: vedio.id }) }}"
+        class="btn btn-primary"
+        style="color: white"
+        ><i class="fas fa-edit"></i></a
+    ></span>
+
+    <span class="meta_info">
+      {% include "groupe/_delete_upload.html.twig" %}</span
+    >
+  </div>
+</div>
+{% endif %}
+<br />
 <div class="row">
   <div class="col-lg-12">
     <div class="owl-carousel active_course">
@@ -46,19 +66,6 @@ vedio.filevedio|trim is not empty %}
           >
             <div class="authr_meta">
               <span class="d-inline-block ml-2"></span>
-            </div>
-            <div class="mt-lg-0 mt-3">
-              <span class="meta_info">
-                <a
-                  href="{{ path('upload_edit', { id: vedio.id }) }}"
-                  class="btn btn-primary"
-                  style="color: white"
-                  >edit</a
-                >
-              </span>
-              <span class="meta_info">
-                {% include "groupe/_delete_upload.html.twig" %}</span
-              >
             </div>
           </div>
           {% endif %}

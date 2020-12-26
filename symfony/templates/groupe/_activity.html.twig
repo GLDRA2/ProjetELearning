@@ -1,14 +1,54 @@
 {% for section in groupe.cours.sections %}
-<h4 style="background-color: #002347; color: rgb(255, 255, 255)">
-  <strong>{{ section.title }}</strong>
-</h4>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item active">
+    {{ section.title }}
+  </li>
+  &nbsp; {% if is_granted('ROLE_TEACHER') %}
+  <span class="badge badge-primary"
+    ><a
+      href="{{
+        path('activity_new', { id: groupe.cours.id, sectionid: section.id })
+      }}"
+      style="color: white"
+    >
+      NEW
+    </a>
+  </span>
+  {% endif %}
+</ol>
 <br />
 
 {% for activity in section.activities %} {% if activity.file is not null and
 activity.file|trim is not empty %}
 
 <div class="card border-warning mb-5">
-  <div class="card-header">{{ activity.name }}</div>
+  <div class="card-header">
+    {{ activity.name }}
+    {% if is_granted('ROLE_TEACHER') %}
+    <div class="container">
+      <div class="row">
+        <span class="meta_info">
+          <form
+            method="post"
+            action="{{ path('activity_delete', { id: activity.id }) }}"
+            onsubmit="return confirm('Are you sure you want to delete this item?');"
+          >
+            <input type="hidden" name="_method" value="DELETE" />
+            <input
+              type="hidden"
+              name="_token"
+              value="{{ csrf_token('delete' ~ activity.id) }}"
+            />
+            <button class="btn btn-danger">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </form>
+        </span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
   <div class="card-body">
     <h4 class="card-title">
       <a

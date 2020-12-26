@@ -6,7 +6,7 @@
     <ul class="list">
       <h5 style="font-size: 20px">
         <span data-toggle="collapse" href="#sub-list" class="sign fas fa-tasks"
-          >&nbspTASKS</span
+          >&nbsp;TASKS</span
         >
       </h5>
 
@@ -18,25 +18,6 @@
         </a>
       </li>
 
-      {#
-      <li id="sub-list">
-        <a
-          href="{{ path('upload_new', { id: groupe.cours.id }) }}"
-          style="color: white"
-          >ADD Article</a
-        >
-      </li>
-      #}
-      <li id="sub-list">
-        <a
-          href="{{ path('activity_new', { id: groupe.cours.id }) }}"
-          style="color: white"
-          >ADD Activity
-        </a>
-      </li>
-      <li id="sub-list">
-        <a href="{{ path('cour_new') }}" style="color: white">ADD Depot </a>
-      </li>
       <li id="sub-list">
         <a href="{{ path('cour_new') }}" style="color: white">ADD Task </a>
       </li>
@@ -68,7 +49,7 @@
           data-toggle="collapse"
           href="#groupe-list"
           class="sign fas fa-users"
-          >&nbspGROUP</span
+          >&nbsp;GROUP</span
         >
       </h5>
       {% for user in groupe.users %}

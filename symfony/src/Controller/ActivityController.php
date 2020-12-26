@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Activity;
 use App\Entity\Cour;
+use App\Entity\Section;
 use App\Form\ActivityType;
 use App\Repository\ActivityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/activity")
@@ -27,9 +29,10 @@ class ActivityController extends AbstractController
     }
 
     /**
-     * @Route("/new/{id}", name="activity_new", methods={"GET","POST"})
+     * @Route("/new/{id}/section/{sectionid}", name="activity_new", methods={"GET","POST"})
+     * @Entity("section", expr="repository.find(sectionid)")
      */
-    public function new(Request $request, Cour $cour): Response
+    public function new(Request $request, Cour $cour, Section $section): Response
     {
         $activity = new Activity();
         $user = $this->getUser();
@@ -42,6 +45,7 @@ class ActivityController extends AbstractController
             $fileName = md5(uniqid()).".".$filepdf->guessExtension();
             $filepdf->move($this->getParameter('upload_directory'), $fileName);
             $activity->setFile($fileName);
+            $activity->setSections($section);
             $activity->setUser($user);
             $activity->setCour($cour);
             $entityManager->persist($activity);
@@ -73,7 +77,7 @@ class ActivityController extends AbstractController
      */
     public function edit(Request $request, Activity $activity): Response
     {
-        $form = $this->createForm(Activity1Type::class, $activity);
+        $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -98,7 +102,10 @@ class ActivityController extends AbstractController
             $entityManager->remove($activity);
             $entityManager->flush();
         }
+        $groupe = $activity->getCour()->getGroupe();
 
-        return $this->redirectToRoute('activity_index');
+         return $this->redirectToRoute('groupe_show', [
+            'id' => $groupe->getId(),
+        ]);
     }
 }

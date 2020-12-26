@@ -1,20 +1,48 @@
-{% for section in groupe.cours.sections %}
-<h4 style="background-color: #002347; color: rgb(255, 255, 255)">
-  <strong>{{ section.title }}</strong>
-</h4>
-<br />
-
-{% for activity in section.activities %} {% if activity.file is not null and
-activity.file|trim is not empty %}
+{% for section in groupe.cours.sections %} {% for activity in section.activities
+%} {% if activity.file is not null and activity.file|trim is not empty %}
 
 <div class="card border-warning mb-5">
-  <div class="card-header">{{ activity.name }}</div>
+  <div class="card-header">
+    {{ activity.name }}
+    &nbsp; {% if is_granted('ROLE_TEACHER') %}
+    <span class="badge badge-primary"
+      ><a
+        href="{{ path('depot_new', { id: activity.id }) }}"
+        style="color: white"
+      >
+        NEW
+      </a>
+    </span>
+    {% endif %}
+  </div>
   {% for depot in activity.depot %}
   <div class="card-body" align="left">
-    <i class="fa fa-cloud-download-alt fa-lg" style="color: red"></i>
-    <a href="{{ path('depot_archive', { id: depot.id }) }}">
-      {{ depot.description }}
-    </a>
+    <div class="row">
+      <i class="fa fa-cloud-download-alt fa-lg" style="color: red"></i>&nbsp;
+      <a href="{{ path('depot_archive', { id: depot.id }) }}">
+        {{ depot.description }}
+      </a>
+      {% if is_granted('ROLE_TEACHER') %} &nbsp;&nbsp;
+      <span class="meta_info">
+        <form
+          method="post"
+          action="{{ path('depot_delete', { id: depot.id }) }}"
+          onsubmit="return confirm('Are you sure you want to delete this item?');"
+        >
+          <input type="hidden" name="_method" value="DELETE" />
+          <input
+            type="hidden"
+            name="_token"
+            value="{{ csrf_token('delete' ~ depot.id) }}"
+          />
+          <button class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </form>
+      </span>
+
+      {% endif %}
+    </div>
   </div>
   {% endfor %}
 </div>

@@ -24,13 +24,6 @@ class ActivityType extends AbstractType
                 'label' => 'Description',
                 'attr' => ['class' => 'form-control']
             ])
-           
-            ->add('sections', EntityType::class, [
-                'class' => Section::class,
-                'choice_label' => 'title',
-                'label' => 'Section',
-                'attr' => ['class' => 'form-control']
-            ])
             ->add('file', FileType::class, [
                 'label' => 'PDF File',
                 'attr' => ['class' => 'form-control-file']
